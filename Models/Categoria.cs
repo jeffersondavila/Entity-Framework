@@ -1,9 +1,14 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace pro.Models;
 
 public class Categoria
 {
+    [Key]
     public Guid CodigoCategoria {get;set;}
-    public string Nombre {get;set;}
-    public string Descripcion {get;set;}
+    [Required]
+    [MaxLength(150)]
+    public string Nombre {get;set;} = string.Empty;
+    public string Descripcion {get;set;} = string.Empty;
     public virtual ICollection<Tarea> Tareas {get;set;}
 }
