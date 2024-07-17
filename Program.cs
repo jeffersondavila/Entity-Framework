@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // builder.Services.AddDbContext<TareasContext>(p=> p.UseInMemoryDatabase("TareasDB"));
 
 // base de datos con sql server
-builder.Services.AddSqlServer<TareasContext>("Data Source=LAPTOP-07NSNMOC;Initial Catalog=TareasDb;user id=sa;password=loc@del@rea;TrustServerCertificate=True");
+builder.Services.AddSqlServer<TareasContext>(builder.Configuration.GetConnectionString("cnTareas"));
 
 var app = builder.Build();
 
