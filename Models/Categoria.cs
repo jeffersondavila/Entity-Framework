@@ -4,10 +4,10 @@ namespace pro.Models;
 
 public class Categoria
 {
-    [Key]
+    // [Key]
     public Guid CodigoCategoria {get;set;}
-    [Required]
-    [MaxLength(150)]
+    // [Required]
+    // [MaxLength(150)]
     public string Nombre {get;set;} = string.Empty;
     public string Descripcion {get;set;} = string.Empty;
     public virtual ICollection<Tarea> Tareas {get;set;}

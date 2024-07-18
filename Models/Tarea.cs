@@ -5,12 +5,12 @@ namespace pro.Models;
 
 public class Tarea
 {
-    [Key]
+    // [Key]
     public Guid CodigoTarea {get;set;}
-    [ForeignKey("CodigoCategoria")]
+    // [ForeignKey("CodigoCategoria")]
     public Guid CodigoCategoria {get;set;}
-    [Required]
-    [MaxLength(200)]
+    // [Required]
+    // [MaxLength(200)]
     public string Titulo {get;set;} = string.Empty;
     public string Descripcon {get;set;} = string.Empty;
     public Prioridad PrioridadTarea {get;set;}
