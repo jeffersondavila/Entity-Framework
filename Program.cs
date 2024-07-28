@@ -58,4 +58,21 @@ app.MapPut("/api/tareas/{codigoTarea}", async ([FromServices] TareasContext dbCo
     }
 });
 
+app.MapDelete("/api/tareas/{codigoTarea}", async ([FromServices] TareasContext dbConexion, [FromRoute] Guid CodigoTarea) =>
+{
+    var tareaActual = dbConexion.Tareas.Find(CodigoTarea);
+
+    if(tareaActual != null)
+    {
+        dbConexion.Remove(tareaActual);
+        await dbConexion.SaveChangesAsync();
+
+        return Results.Ok();
+    }
+    else
+    {
+        return Results.NotFound();
+    }
+});
+
 app.Run();
