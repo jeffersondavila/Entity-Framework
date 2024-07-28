@@ -1,6 +1,7 @@
+using pro;
+using pro.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using pro;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,11 @@ app.MapGet("/dbconexion", async ([FromServices] TareasContext dbConexion) =>
 {
     dbConexion.Database.EnsureCreated();
     return Results.Ok("Base de datos en memoria: " + dbConexion.Database.IsInMemory());
+});
+
+app.MapGet("/api/tareas", ([FromServices] TareasContext dbConexion) =>
+{
+    return Results.Ok(dbConexion.Tareas.Include(p=> p.Categorias).Where(p=> p.PrioridadTarea == pro.Models.Prioridad.Alta));
 });
 
 app.Run();
