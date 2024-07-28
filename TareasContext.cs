@@ -12,6 +12,16 @@ public class TareasContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        List<Tarea> tareasInit = new List<Tarea>();
+        List<Categoria> categoriasInit = new List<Categoria>();
+
+        categoriasInit.Add(new Categoria() {CodigoCategoria = Guid.Parse("ee877ebe-14e2-4ad2-aa4f-bf4b5207657b"),Nombre = "Actividades pendientes",Peso = 1});
+        categoriasInit.Add(new Categoria() {CodigoCategoria = Guid.Parse("ee877ebe-14e2-4ad2-aa4f-bf4b52076502"),Nombre = "Actividades activas",Peso = 2});
+
+        tareasInit.Add(new Tarea() {CodigoTarea = Guid.Parse("ee877ebe-14e2-4ad2-aa4f-bf4b52076510"),CodigoCategoria = Guid.Parse("ee877ebe-14e2-4ad2-aa4f-bf4b5207657b"), Titulo = "Pago servicios publico", PrioridadTarea = Prioridad.Media, FechaCreacion = DateTime.Now});
+        tareasInit.Add(new Tarea() {CodigoTarea = Guid.Parse("ee877ebe-14e2-4ad2-aa4f-bf4b52076520"),CodigoCategoria = Guid.Parse("ee877ebe-14e2-4ad2-aa4f-bf4b5207657b"), Titulo = "Pago servicios privados", PrioridadTarea = Prioridad.Alta, FechaCreacion = DateTime.Now});
+        tareasInit.Add(new Tarea() {CodigoTarea = Guid.Parse("ee877ebe-14e2-4ad2-aa4f-bf4b52076530"),CodigoCategoria = Guid.Parse("ee877ebe-14e2-4ad2-aa4f-bf4b52076502"), Titulo = "Pago U", PrioridadTarea = Prioridad.Alta, FechaCreacion = DateTime.Now});
+
         modelBuilder.Entity<Categoria>(categoria=>
         {
             categoria.ToTable("Categoria");
@@ -19,6 +29,8 @@ public class TareasContext : DbContext
             categoria.Property(p=> p.Nombre).IsRequired().HasMaxLength(150);
             categoria.Property(p=> p.Descripcion);
             categoria.Property(p=> p.Peso);
+
+            categoria.HasData(categoriasInit);
         });
 
         modelBuilder.Entity<Tarea>(tarea=>
@@ -30,6 +42,8 @@ public class TareasContext : DbContext
             tarea.Property(p=> p.Descripcon);
             tarea.Property(p=> p.PrioridadTarea);
             tarea.Property(p=> p.FechaCreacion);
+
+            tarea.HasData(tareasInit);
         });
     }
 }
