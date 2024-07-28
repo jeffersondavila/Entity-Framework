@@ -15,7 +15,7 @@ var app = builder.Build();
 
 app.MapGet("/", () => "Hello World!");
 
-app.MapGet("/dbconexion", async ([FromServices] TareasContext dbConexion) =>
+app.MapGet("/dbconexion", ([FromServices] TareasContext dbConexion) =>
 {
     dbConexion.Database.EnsureCreated();
     return Results.Ok("Base de datos en memoria: " + dbConexion.Database.IsInMemory());
@@ -23,7 +23,19 @@ app.MapGet("/dbconexion", async ([FromServices] TareasContext dbConexion) =>
 
 app.MapGet("/api/tareas", ([FromServices] TareasContext dbConexion) =>
 {
-    return Results.Ok(dbConexion.Tareas.Include(p=> p.Categorias).Where(p=> p.PrioridadTarea == pro.Models.Prioridad.Alta));
+    return Results.Ok(dbConexion.Tareas.Include(p=> p.Categorias));
+    // return Results.Ok(dbConexion.Tareas.Include(p=> p.Categorias).Where(p=> p.PrioridadTarea == pro.Models.Prioridad.Alta));
+});
+
+app.MapPost("/api/tareas", async ([FromServices] TareasContext dbConexion, [FromBody] Tarea tarea) =>
+{
+    tarea.CodigoTarea = Guid.NewGuid();
+    tarea.FechaCreacion = DateTime.Now;
+
+    await dbConexion.AddAsync(tarea);
+    await dbConexion.SaveChangesAsync();
+
+    return Results.Ok();
 });
 
 app.Run();
